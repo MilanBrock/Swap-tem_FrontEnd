@@ -61,7 +61,7 @@ function App() {
 
   return (
       <div>
-          <label>CI Commit</label>
+          <label>CI Commit PLS</label>
         <form onSubmit={handleSubmit}>
           <input type="text" className="small-input" value={name}
                  onChange={(e) => setName(e.target.value)}
