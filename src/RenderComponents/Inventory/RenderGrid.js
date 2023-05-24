@@ -1,5 +1,5 @@
-import drop from "../DragAndDrop/Drop";
-import allowDrop from "../DragAndDrop/AllowDrop";
+import drop from "../../DragAndDrop/Drop";
+import allowDrop from "../../DragAndDrop/AllowDrop";
 import React from "react";
 
 const RenderGrid = () => {

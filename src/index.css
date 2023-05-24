@@ -24,8 +24,41 @@ code {
 .column {
   display: flex;
   flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
+  background-color: red;
+}
+
+.itemColumn {
+  display: contents;
+  flex-direction: column;
+}
+
+.itemNormal{
+  width: 60px;
+  length: 60px;
+
+}
+
+.itemChecked{
+  width: 60px;
+  length: 60px;
+  border: firebrick 6px dotted;
+}
+
+.colCustom {
+  position: relative;
+  width: 50px;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  border: firebrick 2px dotted;
+}
+
+.auctionRows{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 
@@ -44,8 +77,8 @@ code {
   font-weight: bold;
   line-height: 34px;
   height: 50px;
-  margin-right: -1px;
-  margin-top: -1px;
+  margin-right: 5px;
+  margin-top: 5px;
   padding: 0;
   text-align: center;
   width: 50px;
