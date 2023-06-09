@@ -7,9 +7,12 @@ import {useEffect, useState} from "react";
 import AuctionCatalog from "../RenderComponents/Auctions/AuctionCatalog";
 import ItemCatalog from "../RenderComponents/Inventory/ItemCatalog";
 import AuctionList from "./AuctionList";
+import {Alert} from "react-bootstrap";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 
-export default function AdminPanel() {
+
+export default function AuctionStart() {
 
     const navigate = useNavigate();
     const params = useParams();
@@ -17,18 +20,28 @@ export default function AdminPanel() {
     const [auctionMinOffer, setAutionMinOffer] = useState(0);
     const [itemIds, setItemIds] = useState([]);
 
+    const [errorInventory, setErrorInventory] = useState(true);
+
+    let errorSubmit = false;
+    const [showSubmitError, setShowSubmitError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+
+
     // Get user's items
     useEffect(() => {
-        fetch('http://localhost:8080/inventory/'+ params.userId)
-
-            .then((response) => response.json())
+        fetch('http://localhost:8080/inventory', {
+            headers: {
+                "authentication": localStorage.getItem("authentication"),
+            }
+        }).then((response) => response.json())
             .then((data) => {
-                console.log(data);
+                console.log(data)
                 setItems(data);
+                setErrorInventory(false)
             }).catch((err) => {
             console.log(err.message);
         });
-        //Runs only on the first render
     }, []);
 
 
@@ -56,17 +69,22 @@ export default function AdminPanel() {
         await fetch('http://localhost:9090/auctions', {
             method: 'POST',
             body: JSON.stringify({
-                ownerId: params.userId,
                 ownerItems: itemIds,
                 minimalOffer: auctionMinOffer
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
+                "authentication": localStorage.getItem("authentication"),
             },
-        })
+        }).then((response) => response.text())
             .then((data) => {
+                if(data === "Auction not added"){
+                    errorSubmit = true;
+                }
             })
             .catch((err) => {
+                errorSubmit = true;
+                setShowSubmitError(true);
                 console.log(err.message);
             });
     };
@@ -75,9 +93,42 @@ export default function AdminPanel() {
     // Activate post request and return to auction list
     const handleSubmit = (e) => {
         e.preventDefault();
-        postAuction();
-        navigate("/auctionList/" + params.userId);
+        checkAuction();
     };
+
+
+    const errorMessageInventory = () => {
+        return (
+            <Alert variant="danger text-center">Could not load inventory</Alert>
+        );
+    };
+
+    const errorMessageSubmit = () => {
+        return (
+            <Alert variant="danger text-center">{errorMessage}</Alert>
+        );
+    };
+
+    const checkAuction = () => {
+        setErrorMessage(null);
+        if(auctionMinOffer <= 0){
+            setErrorMessage("Set the minimum bid");
+            setShowSubmitError(true);
+        } else if (itemIds.length === 0) {
+            setErrorMessage("Select items");
+            setShowSubmitError(true);
+        } else {
+            postAuction();
+            wait(500).then(() => {
+                if(errorSubmit === true) {
+                    setErrorMessage("Unable to start auction");
+                    setShowSubmitError(true);
+                } else {
+                    navigate("/auctionList/");
+                }}
+            );
+        }
+    }
 
 
     return (
@@ -96,14 +147,18 @@ export default function AdminPanel() {
                             <br/>
                             <Form.Label>Select items for auction</Form.Label>
                             <br/>
-                            <ItemCatalog items={items} itemClickActionHandler={handleSelectItems} itemClickActionInput={"Checked"}/>
+                            {errorInventory && errorMessageInventory()}
+                            <div style={{marginLeft:"3%"}}><ItemCatalog items={items} itemClickActionHandler={handleSelectItems} itemClickActionInput={"Checked"}/></div>
                             <br/>
                             <Button variant="primary" type="submit">
                                 Start Auction
                             </Button>
                         </Form>
                     </Card.Body>
-                </Card>}</div>
+                </Card>}
+                    <br/>
+                    {showSubmitError && errorMessageSubmit()}
+                </div>
                 <div className={"col"} >{}</div>
             </div>
         </div>

@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import NavigationBar from "./RenderComponents/NavigationBar/NavigationBar";
 
 import Home from './Pages/Home'
+import Login from './Pages/Login'
 import Inventory from './Pages/Inventory'
 import AdminPanel from "./Pages/AdminPanel";
 import {Route, Routes} from "react-router-dom";
@@ -18,11 +19,12 @@ function App() {
       <div>
           <NavigationBar/>
           <Routes>
-              <Route path="/home" element={<Home />} />
-              <Route path="/inventory/:userId" element={<Inventory />} />
-              <Route path="/auctionlist/:userId" element={<AuctionList/>} />
-              <Route path="/auctionstart/:userId" element={<AuctionStart/>} />
-              <Route path="/auction/:auctionId/:participantId" element={<Auction/>} />
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/inventory" element={<Inventory />} />
+              <Route path="/auctionlist" element={<AuctionList/>} />
+              <Route path="/auctionstart" element={<AuctionStart/>} />
+              <Route path="/auction/:auctionId" element={<Auction/>} />
               <Route path="/admin" element={<AdminPanel />} />
           </Routes>
       </div>
