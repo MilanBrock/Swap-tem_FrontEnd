@@ -1,4 +1,4 @@
-name: Build
+name: Static code analysis (SonarCloud)
 on:
   push:
     branches:
