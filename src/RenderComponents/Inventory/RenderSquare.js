@@ -1,6 +1,4 @@
-import drop from "../../DragAndDrop/Drop";
-import allowDrop from "../../DragAndDrop/AllowDrop";
-import drag from "../../DragAndDrop/Drag";
+
 import React, {useState} from "react";
 import Happy from "../../DragAndDrop/happy2.png";
 import RenderItem from "./RenderItem"

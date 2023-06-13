@@ -195,7 +195,7 @@ export default function Auction() {
             />
 
             <div className={"row"}>
-                <div className={"col"}><Button onClick={handleLeaveAuction} variant={"primary"} style={{marginLeft:"28%", marginTop:"2%"}}>Leave auction</Button></div>
+                <div className={"col"}><Button onClick={handleLeaveAuction} variant={"danger"} style={{marginLeft:"28%", marginTop:"2%"}}>Leave auction</Button></div>
                 <div className={"col"}>{showError && showErrorMessage()}</div>
                 <div className={"col"}></div>
 

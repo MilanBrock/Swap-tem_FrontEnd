@@ -29,7 +29,6 @@ export default function NavigationBar() {
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/inventory">Inventory</Nav.Link>
                         <Nav.Link href="/auctionList">Auctions</Nav.Link>
-                        <Nav.Link href="/admin">Admin panel (secret)</Nav.Link>
                     </Nav>
                     <Nav className="m-lg-auto">
                         {!isLoggedIn && <Nav.Link href="/login">Login</Nav.Link>
